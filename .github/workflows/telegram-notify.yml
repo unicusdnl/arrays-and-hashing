@@ -13,7 +13,7 @@ jobs:
       github.event.workflow_run.event == 'pull_request' &&
       github.event.workflow_run.conclusion == 'success'
     steps:
-      - name: 'Download artifact'
+      - name: "Download artifact"
         uses: actions/github-script@v3.1.0
         with:
           script: |
@@ -33,16 +33,15 @@ jobs:
             });
             var fs = require('fs');
             fs.writeFileSync('${{github.workspace}}/pr.zip', Buffer.from(download.data));
-      - run: unzip pr.zip
 
-      - name: 'Comment on PR'
-        uses: actions/github-script@v3
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            export PR_NUMBER=$(cat ./NR)
-            echo "::set-env name=PR_NUMBER::$PR_NUMBER"
-      
+      - name: Unzip artifact
+        run: unzip pr.zip
+
+      - name: "Comment on PR"
+        run: |
+          export PR_NUMBER=$(cat ./NR)
+          echo "::set-env name=PR_NUMBER::$PR_NUMBER"
+
       - name: Send telegram notification on PR
         uses: appleboy/telegram-action@v0.1.1
         with:
