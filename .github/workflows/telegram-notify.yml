@@ -1,0 +1,25 @@
+name: Telegram Notify
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  telegram-notify:
+    name: Send Telegram Notification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send telegram notification on PR
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_DEST_CHAT }}
+          token: ${{ secrets.TELEGRAM_ACCESS_TOKEN }}
+          disable_notification: true
+          message: |
+            ${{ github.actor }} raised a PR.
+            Repository: ${{ github.repository }}
+
+            All members can review here:
+            See changes: https://github.com/${{ github.repository }}/pull/${{ github.event.number }}
