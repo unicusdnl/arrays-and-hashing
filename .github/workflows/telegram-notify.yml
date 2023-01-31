@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send telegram notification on PR
-        uses: appleboy/telegram-action@master
+        uses: appleboy/telegram-action@v0.1.1
         with:
           to: ${{ secrets.TELEGRAM_DEST_CHAT }}
           token: ${{ secrets.TELEGRAM_ACCESS_TOKEN }}
